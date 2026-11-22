@@ -1,0 +1,510 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    max-width: 100%;
+}
+
+/* Панель инструментов */
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #ffffff;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.monthControl {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.monthTitle {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    min-width: 155px;
+    text-align: center;
+    color: #0f172a;
+}
+
+.navBtn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
+    cursor: pointer;
+    font-size: 16px;
+    color: #334155;
+}
+
+.navBtn:hover {
+    background: #e2e8f0;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.select {
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #0f172a;
+    background: #ffffff;
+}
+
+.resetBtn {
+    padding: 8px 10px;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.statusSaved {
+    font-size: 12px;
+    color: #16a34a;
+}
+.statusSaving,
+.statusUnsaved {
+    font-size: 12px;
+    color: #d97706;
+}
+.statusError {
+    font-size: 12px;
+    color: #dc2626;
+}
+
+.primaryBtn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.primaryBtn:hover {
+    background: #1d4ed8;
+}
+
+.secondaryBtn {
+    padding: 8px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.secondaryBtn:hover:not(:disabled) {
+    background: #f1f5f9;
+}
+
+.secondaryBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Легенда */
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    color: #475569;
+    padding: 0 4px;
+}
+
+.badgeOff,
+.badgeVac,
+.badgeSick,
+.badgeTrip {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+.badgeOff { background: #f1f5f9; color: #475569; }
+.badgeVac { background: #dcfce7; color: #166534; }
+.badgeSick { background: #fee2e2; color: #991b1b; }
+.badgeTrip { background: #dbeafe; color: #1e40af; }
+
+/* Контейнер таблицы со скроллом */
+.tableContainer {
+    width: 100%;
+    overflow-x: auto;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    /* Оставляем место снизу, чтобы поповер последней строки не обрезался */
+    padding-bottom: 42px;
+}
+
+.table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+}
+
+.th,
+.td {
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 6px;
+    text-align: center;
+    background: #ffffff;
+}
+
+.th {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #334155;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+/* Закреплённые левые колонки */
+.stickyColIndex {
+    position: sticky;
+    left: 0;
+    width: 42px;
+    min-width: 42px;
+    max-width: 42px;
+    z-index: 3;
+}
+
+.stickyColName {
+    position: sticky;
+    left: 42px;
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
+    text-align: left;
+    z-index: 3;
+    box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.08);
+}
+
+thead .stickyColIndex,
+thead .stickyColName {
+    z-index: 4;
+    background: #f8fafc;
+}
+
+.empCell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.empInfo {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.empName {
+    font-weight: 500;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.empMeta {
+    font-size: 11px;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fillRowBtn {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #f8fafc;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.fillRowBtn:hover {
+    background: #e0f2fe;
+    border-color: #7dd3fc;
+}
+
+/* Колонки дней */
+.dayCol {
+    width: 38px;
+    min-width: 38px;
+    padding: 4px 2px;
+}
+
+.dayNum {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.weekday {
+    font-size: 10px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+.weekendHeader {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.weekendHeader .weekday {
+    color: #dc2626;
+}
+
+.cellTd {
+    position: relative;
+    padding: 0;
+    width: 38px;
+    min-width: 38px;
+    height: 42px;
+}
+
+.cellInput {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: #0f172a;
+    padding: 0;
+}
+
+.cellInput:focus {
+    outline: 2px solid #2563eb;
+    outline-offset: -2px;
+    background: #ffffff;
+}
+
+/* Цветовое кодирование ячеек */
+.cellWeekendBg { background: #f8fafc; }
+.cellDayOff { background: #f1f5f9; color: #64748b; }
+.cellVacation { background: #dcfce7; }
+.cellSick { background: #fee2e2; }
+.cellTrip { background: #dbeafe; }
+
+/* Поповер быстрого выбора */
+.popover {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3px;
+    background: #1e293b;
+    padding: 4px;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    z-index: 20;
+    margin-top: 2px;
+}
+
+.popBtn,
+.popClearBtn {
+    padding: 4px 7px;
+    border: none;
+    border-radius: 5px;
+    background: #334155;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.popBtn:hover {
+    background: #2563eb;
+}
+
+.popClearBtn {
+    background: #7f1d1d;
+}
+
+.popClearBtn:hover {
+    background: #dc2626;
+}
+
+/* Колонки итогов */
+.totalCol {
+    min-width: 56px;
+    background: #f8fafc;
+}
+
+.totalCell {
+    font-weight: 600;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 48px 20px;
+    background: #ffffff;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    color: #64748b;
+}
+
+/* Третья закреплённая колонка (Табель / Итилиум) */
+.stickyColName {
+    box-shadow: none; /* тень переходит на .stickyColType */
+}
+
+.stickyColType {
+    position: sticky;
+    left: 282px; /* 42px (№) + 240px (Сотрудник) */
+    width: 74px;
+    min-width: 74px;
+    max-width: 74px;
+    z-index: 3;
+    box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.08);
+}
+
+thead .stickyColType {
+    z-index: 4;
+    background: #f8fafc;
+}
+
+.rowTagMain {
+    font-size: 11px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.rowTagItilium {
+    font-size: 11px;
+    font-weight: 600;
+    color: #0369a1;
+}
+
+/* Визуальное выделение строки Итилиум и разделитель между сотрудниками */
+.itiliumSubRow,
+.itiliumCell {
+    background: #f0f9ff;
+    height: 32px;
+}
+
+.itiliumInput {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #0369a1;
+    padding: 0;
+}
+
+.itiliumInput::placeholder {
+    color: #bae6fd;
+}
+
+.itiliumInput:focus {
+    outline: 2px solid #0284c7;
+    outline-offset: -2px;
+    background: #ffffff;
+}
+
+.itiliumTotalCell {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 12px;
+}
+
+.groupBorderBottom {
+    border-bottom: 2px solid #94a3b8;
+}
+
+.rowControls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.itiliumToggleBtn {
+    height: 26px;
+    padding: 0 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #f8fafc;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.itiliumToggleBtn:hover {
+    border-color: #38bdf8;
+    color: #0284c7;
+}
+
+.itiliumToggleActive {
+    background: #e0f2fe;
+    border-color: #38bdf8;
+    color: #0369a1;
+}
+
+.exportBtn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    background: #16a34a;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.exportBtn:hover:not(:disabled) {
+    background: #15803d;
+}
+
+.exportBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

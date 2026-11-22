@@ -3,6 +3,8 @@ import { PATHS } from "../PATHS.ts";
 import { ProtectedRoute } from "../../components/ProtectedRoute.tsx";
 import { Layout } from "../layout/Layout.tsx";
 import { LogIn } from "../../screens/LogIn.tsx";
+import { AddEmployee } from "../../components/addEmployeeModal/AddEmployee.tsx";
+import { TimesheetPage } from "../../screens/TimesheetPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -24,8 +26,12 @@ export const router = createBrowserRouter([
             element: <div>main</div>,
           },
           {
-            path: PATHS.subjects,
-            element: <div>not found</div>,
+            path: PATHS.addEmployee,
+            element: <AddEmployee />,
+          },
+          {
+            path: PATHS.timeSheet,
+            element: <TimesheetPage />,
           },
         ],
       },
