@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -7,11 +8,11 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import PunchClockIcon from "@mui/icons-material/PunchClock";
+import ExitToAppSharpIcon from "@mui/icons-material/ExitToAppSharp";
 import { NavLink } from "react-router-dom";
 import { PATHS } from "../../app/PATHS.ts";
 
@@ -21,9 +22,9 @@ interface HeaderProps {
 
 function Header({ logOut }: HeaderProps) {
   const [anchorElNav, setAnchorElNav] =
-    React.useState<null | HTMLElement>(null);
+    useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] =
-    React.useState<null | HTMLElement>(null);
+    useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (
     event: React.MouseEvent<HTMLElement>,
@@ -43,12 +44,11 @@ function Header({ logOut }: HeaderProps) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon
+          <PunchClockIcon
             sx={{
               display: { xs: "none", md: "flex" },
               mr: 1,
@@ -69,7 +69,7 @@ function Header({ logOut }: HeaderProps) {
               textDecoration: "none",
             }}
           >
-            LOGO
+            TIMESHEET
           </Typography>
 
           <Box
@@ -79,14 +79,14 @@ function Header({ logOut }: HeaderProps) {
             }}
           >
             <IconButton
-              size="large"
+              size={"large"}
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <MenuIcon fontSize={"large"} />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -102,7 +102,10 @@ function Header({ logOut }: HeaderProps) {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: "block", md: "none" } }}
+              sx={{
+                display: { xs: "block", md: "none" },
+                padding: "18px 14px",
+              }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
                 <NavLink to={PATHS.addEmployee}>
@@ -110,6 +113,8 @@ function Header({ logOut }: HeaderProps) {
                     Добавить сотрудника
                   </Typography>
                 </NavLink>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
                 <NavLink to={PATHS.timeSheet}>
                   <Typography sx={{ textAlign: "center" }}>
                     Табель
@@ -118,7 +123,7 @@ function Header({ logOut }: HeaderProps) {
               </MenuItem>
             </Menu>
           </Box>
-          <AdbIcon
+          <PunchClockIcon
             sx={{
               display: { xs: "flex", md: "none" },
               mr: 1,
@@ -159,6 +164,15 @@ function Header({ logOut }: HeaderProps) {
               <NavLink to={PATHS.addEmployee}>
                 Добавить сотрудника
               </NavLink>
+            </Button>
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+              }}
+            >
               <NavLink to={PATHS.timeSheet}>Табель</NavLink>
             </Button>
           </Box>
@@ -167,10 +181,11 @@ function Header({ logOut }: HeaderProps) {
               <IconButton
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0 }}
+                color={"inherit"}
               >
-                <Avatar
-                  alt="Remy Sharp"
-                  src="/static/images/avatar/2.jpg"
+                <ExitToAppSharpIcon
+                  fontSize={"large"}
+                  color={"inherit"}
                 />
               </IconButton>
             </Tooltip>
