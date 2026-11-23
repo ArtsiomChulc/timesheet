@@ -109,14 +109,21 @@ function Header({ logOut }: HeaderProps) {
             >
               <MenuItem onClick={handleCloseNavMenu}>
                 <NavLink to={PATHS.addEmployee}>
-                  <Typography sx={{ textAlign: "center" }}>
+                  <Typography sx={{ textAlign: "left" }}>
                     Добавить сотрудника
                   </Typography>
                 </NavLink>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <NavLink to={PATHS.timeSheet}>
-                  <Typography sx={{ textAlign: "center" }}>
+                <NavLink
+                  to={PATHS.timeSheet}
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  <Typography sx={{ textAlign: "left" }}>
                     Табель
                   </Typography>
                 </NavLink>
