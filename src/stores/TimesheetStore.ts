@@ -18,7 +18,7 @@ const WEEKDAYS = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 export class TimesheetStore {
-  // employees: Employee[] = [];
+  isInitialized = false;
   allEmployees: Employee[] = [];
   records: TimesheetRecords = {};
   itiliumRecords: ItiliumRecords = {};
@@ -207,6 +207,7 @@ export class TimesheetStore {
     } finally {
       runInAction(() => {
         this.isLoading = false;
+        this.isInitialized = true;
       });
     }
   }
@@ -550,6 +551,21 @@ export class TimesheetStore {
       vacationDays,
       itiliumHours,
     };
+  }
+
+  reset() {
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer);
+      this.saveTimer = null;
+    }
+    this.allEmployees = [];
+    this.records = {};
+    this.itiliumRecords = {};
+    this.selectedDepartment = "ALL";
+    this.selectedEmployeeId = "ALL";
+    this.saveStatus = "saved";
+    this.isLoading = false;
+    this.isInitialized = false;
   }
 }
 

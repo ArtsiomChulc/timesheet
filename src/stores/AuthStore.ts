@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "../../supabase/client";
+import { timesheetStore } from "./TimesheetStore.ts";
 
 export class AuthStore {
   user: User | null = null;
@@ -41,6 +42,9 @@ export class AuthStore {
         this.session = session;
         this.user = session?.user ?? null;
         this.isAuthChecking = false;
+        if (!session) {
+          timesheetStore.reset();
+        }
       });
     });
   }
@@ -101,6 +105,7 @@ export class AuthStore {
     runInAction(() => {
       this.session = null;
       this.user = null;
+      timesheetStore.reset();
     });
   }
 
