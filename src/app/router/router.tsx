@@ -3,8 +3,10 @@ import { PATHS } from "../PATHS.ts";
 import { ProtectedRoute } from "../../components/ProtectedRoute.tsx";
 import { Layout } from "../layout/Layout.tsx";
 import { LogIn } from "../../screens/LogIn.tsx";
-import { AddEmployee } from "../../components/addEmployeeModal/AddEmployee.tsx";
+import { AddEmployee } from "../../components/addEmployee/AddEmployee.tsx";
 import { TimesheetPage } from "../../screens/TimesheetPage.tsx";
+import { HomePage } from "../../screens/HomePage.tsx";
+import { EmployeesPage } from "../../screens/EmployeesPage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -23,7 +25,7 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <div>main</div>,
+            element: <HomePage />,
           },
           {
             path: PATHS.addEmployee,
@@ -32,6 +34,10 @@ export const router = createBrowserRouter([
           {
             path: PATHS.timeSheet,
             element: <TimesheetPage />,
+          },
+          {
+            path: PATHS.employees,
+            element: <EmployeesPage />,
           },
         ],
       },

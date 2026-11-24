@@ -7,7 +7,7 @@ import type {
 } from "../types/timesheet";
 
 export interface ExportTimesheetParams {
-  employees: Employee[];
+  allEmployees: Employee[];
   daysInMonth: DayInfo[];
   records: TimesheetRecords;
   itiliumRecords: ItiliumRecords;
@@ -44,7 +44,7 @@ const GROUP_BOTTOM_BORDER = {
 };
 
 export async function exportTimesheetToExcel({
-  employees,
+  allEmployees,
   daysInMonth,
   records,
   itiliumRecords,
@@ -177,7 +177,7 @@ export async function exportTimesheetToExcel({
     3 + totalDays,
   ).letter;
 
-  employees.forEach((emp, empIdx) => {
+  allEmployees.forEach((emp, empIdx) => {
     const showItilium = emp.has_itilium;
     const mainRow = sheet.getRow(currentRowIdx);
     mainRow.height = 24;

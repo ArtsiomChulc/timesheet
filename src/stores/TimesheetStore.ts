@@ -18,7 +18,8 @@ const WEEKDAYS = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 export class TimesheetStore {
-  employees: Employee[] = [];
+  // employees: Employee[] = [];
+  allEmployees: Employee[] = [];
   records: TimesheetRecords = {};
   itiliumRecords: ItiliumRecords = {};
 
@@ -37,6 +38,10 @@ export class TimesheetStore {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+  }
+
+  get geAllEmployees(): Employee[] {
+    return this.allEmployees.filter((e) => e.is_active);
   }
 
   // Ключ месяца для БД: '2026-11'
@@ -88,7 +93,7 @@ export class TimesheetStore {
   // Уникальный список всех отделов/групп
   get departments(): string[] {
     const set = new Set(
-      this.employees
+      this.allEmployees
         .map((e) => e.department)
         .filter(Boolean),
     );
@@ -99,15 +104,15 @@ export class TimesheetStore {
   // Сотрудники, подходящие под выбранный отдел (для выпадающего списка выбора одного работника)
   get employeesInSelectedDepartment(): Employee[] {
     if (this.selectedDepartment === "ALL")
-      return this.employees;
-    return this.employees.filter(
+      return this.allEmployees;
+    return this.allEmployees.filter(
       (e) => e.department === this.selectedDepartment,
     );
   }
 
   // Итоговый отфильтрованный список сотрудников для таблицы и экспорта в Excel
   get filteredEmployees(): Employee[] {
-    return this.employees.filter((emp) => {
+    return this.allEmployees.filter((emp) => {
       const matchDept =
         this.selectedDepartment === "ALL" ||
         emp.department === this.selectedDepartment;
@@ -163,7 +168,6 @@ export class TimesheetStore {
         supabase
           .from("employees")
           .select("*")
-          .eq("is_active", true)
           .order("full_name"),
         supabase
           .from("timesheets")
@@ -176,7 +180,8 @@ export class TimesheetStore {
       if (sheetRes.error) throw sheetRes.error;
 
       runInAction(() => {
-        this.employees = (empRes.data as Employee[]) ?? [];
+        this.allEmployees =
+          (empRes.data as Employee[]) ?? [];
         const rawRecords = sheetRes.data?.records as
           Record<string, unknown> | undefined;
 
@@ -256,13 +261,88 @@ export class TimesheetStore {
     }
 
     runInAction(() => {
-      this.employees.push(data as Employee);
-      this.employees.sort((a, b) =>
+      this.allEmployees.push(data as Employee);
+      this.allEmployees.sort((a, b) =>
         a.full_name.localeCompare(b.full_name),
       );
     });
 
     return true;
+  }
+
+  // метод редактирования данных сотрудника
+  async updateEmployee(
+    employeeId: string,
+    dto: Partial<CreateEmployeeDto>,
+  ): Promise<boolean> {
+    const isCyclic =
+      dto.schedule_type === "2/2" ||
+      dto.schedule_type === "1/3";
+
+    const payload = {
+      ...dto,
+      shift_start_date:
+        isCyclic && dto.shift_start_date
+          ? dto.shift_start_date
+          : null,
+    };
+
+    const { data, error } = await supabase
+      .from("employees")
+      .update(payload)
+      .eq("id", employeeId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error(
+        "Ошибка обновления сотрудника:",
+        error.message,
+      );
+      return false;
+    }
+
+    runInAction(() => {
+      const idx = this.allEmployees.findIndex(
+        (e) => e.id === employeeId,
+      );
+      if (idx !== -1) {
+        this.allEmployees[idx] = data as Employee;
+        this.allEmployees.sort((a, b) =>
+          a.full_name.localeCompare(b.full_name),
+        );
+      }
+    });
+
+    return true;
+  }
+
+  // метод задизейбливания / восстановления сотрудника:
+  async toggleEmployeeActive(
+    employeeId: string,
+  ): Promise<void> {
+    const emp = this.allEmployees.find(
+      (e) => e.id === employeeId,
+    );
+    if (!emp) return;
+
+    const nextState = !emp.is_active;
+    emp.is_active = nextState; // Мгновенное обновление UI
+
+    const { error } = await supabase
+      .from("employees")
+      .update({ is_active: nextState })
+      .eq("id", employeeId);
+
+    if (error) {
+      console.error(
+        "Ошибка изменения статуса сотрудника:",
+        error.message,
+      );
+      runInAction(() => {
+        emp.is_active = !nextState;
+      });
+    }
   }
 
   // --- ЛОГИКА РАСЧЁТА ГРАФИКОВ РАБОТ ---
@@ -323,7 +403,7 @@ export class TimesheetStore {
     employeeId: string,
     onlyEmpty = false,
   ) {
-    const emp = this.employees.find(
+    const emp = this.allEmployees.find(
       (e) => e.id === employeeId,
     );
     if (!emp || emp.schedule_type === "manual") return;
@@ -407,7 +487,7 @@ export class TimesheetStore {
   }
 
   async toggleEmployeeItilium(employeeId: string) {
-    const emp = this.employees.find(
+    const emp = this.allEmployees.find(
       (e) => e.id === employeeId,
     );
     if (!emp) return;

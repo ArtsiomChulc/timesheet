@@ -1,7 +1,7 @@
 export const PATHS = {
+  home: "/",
   login: "/login",
   addEmployee: "/add-employee",
   timeSheet: "/time-sheet",
-  schedule: "/schedule",
-  calendar: "/calendar",
-};
+  employees: "/employees",
+} as const;

@@ -145,7 +145,7 @@ export const TimesheetPage: FC = observer(() => {
     setIsExporting(true);
     try {
       await exportTimesheetToExcel({
-        employees: filteredEmployees,
+        allEmployees: filteredEmployees,
         daysInMonth: timesheetStore.daysInMonth,
         records: timesheetStore.records,
         itiliumRecords: timesheetStore.itiliumRecords,

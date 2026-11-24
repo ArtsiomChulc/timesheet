@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import PunchClockIcon from "@mui/icons-material/PunchClock";
-import ExitToAppSharpIcon from "@mui/icons-material/ExitToAppSharp";
+import SettingsSharpIcon from "@mui/icons-material/SettingsSharp";
 import { NavLink } from "react-router-dom";
 import { PATHS } from "../../app/PATHS.ts";
 
@@ -54,24 +54,23 @@ function Header({ logOut }: HeaderProps) {
               mr: 1,
             }}
           />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            TIMESHEET
-          </Typography>
-
+          <NavLink to={PATHS.home}>
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              TIMESHEET
+            </Typography>
+          </NavLink>
           <Box
             sx={{
               flexGrow: 1,
@@ -108,6 +107,13 @@ function Header({ logOut }: HeaderProps) {
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
+                <NavLink to={PATHS.home}>
+                  <Typography sx={{ textAlign: "left" }}>
+                    Главная
+                  </Typography>
+                </NavLink>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
                 <NavLink to={PATHS.addEmployee}>
                   <Typography sx={{ textAlign: "left" }}>
                     Добавить сотрудника
@@ -136,30 +142,45 @@ function Header({ logOut }: HeaderProps) {
               mr: 1,
             }}
           />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
+          <NavLink
+            to={PATHS.home}
+            style={{
+              display: "flex",
               flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
             }}
           >
-            LOGO
-          </Typography>
+            <Typography
+              variant="h5"
+              noWrap
+              sx={{
+                mr: 2,
+                display: { xs: "block", md: "none" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              TIMESHEET
+            </Typography>
+          </NavLink>
           <Box
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "flex" },
             }}
           >
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+              }}
+            >
+              <NavLink to={PATHS.home}>Главная</NavLink>
+            </Button>
             <Button
               onClick={handleCloseNavMenu}
               sx={{
@@ -190,7 +211,7 @@ function Header({ logOut }: HeaderProps) {
                 sx={{ p: 0 }}
                 color={"inherit"}
               >
-                <ExitToAppSharpIcon
+                <SettingsSharpIcon
                   fontSize={"large"}
                   color={"inherit"}
                 />
@@ -212,6 +233,13 @@ function Header({ logOut }: HeaderProps) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              <MenuItem onClick={handleCloseUserMenu}>
+                <NavLink to={PATHS.employees}>
+                  <Typography sx={{ textAlign: "center" }}>
+                    Редактирование
+                  </Typography>
+                </NavLink>
+              </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography
                   onClick={logOut}
