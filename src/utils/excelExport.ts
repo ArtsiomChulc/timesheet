@@ -214,6 +214,12 @@ export async function exportTimesheetToExcel({
           pattern: "solid",
           fgColor: { argb: "FFFEE2E2" },
         };
+      } else if (val === "От") {
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "FFFEF3C7" },
+        };
       } else if (val === "К") {
         cell.fill = {
           type: "pattern",
@@ -359,6 +365,35 @@ export async function exportTimesheetToExcel({
     size: 10,
   };
 
+  const legendStartRow = signRowIdx + 5;
+  const legendLines = [
+    "Пояснения:",
+    "в - выходной",
+    "о - отпуск без сохранения заработной платы",
+    "От - трудовой отпуск (очередной)",
+    "к - командировка",
+    "б - больничный",
+  ];
+
+  legendLines.forEach((line, index) => {
+    const r = legendStartRow + index;
+    // Объединяем ячейки со 2-й по 15-ю колонку, чтобы длинные строки не обрезались
+    sheet.mergeCells(r, 2, r, 15);
+    const cell = sheet.getCell(r, 2);
+    cell.value = line;
+    cell.font = {
+      name: "Arial",
+      size: 10,
+      bold: index === 0,
+      color: { argb: "FF0F172A" },
+    };
+    cell.alignment = {
+      vertical: "middle",
+      horizontal: "left",
+    };
+    sheet.getRow(r).height = 18;
+  });
+
   // 5. Настройка ширины колонок
   sheet.getColumn(1).width = 5;
   sheet.getColumn(2).width = 32;
@@ -379,4 +414,10 @@ export async function exportTimesheetToExcel({
     ? `_${filterLabel.replace(/[^a-zA-Zа-яА-Я0-9_-]/g, "_")}`
     : "";
   saveAs(blob, `Табель_${monthKey}${safeSuffix}.xlsx`);
+
+  sheet.getCell(signRowIdx + 2, 2).value = "Б - больничный";
+  sheet.getCell(signRowIdx + 2, 2).font = {
+    name: "Arial",
+    size: 10,
+  };
 }

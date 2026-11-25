@@ -154,6 +154,13 @@
 .badgeVac { background: #dcfce7; color: #166534; }
 .badgeSick { background: #fee2e2; color: #991b1b; }
 .badgeTrip { background: #dbeafe; color: #1e40af; }
+.badgeUnpaid {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: #fef3c7;
+    color: #92400e;
+}
 
 /* Контейнер таблицы со скроллом */
 .tableContainer {
@@ -323,6 +330,7 @@ thead .stickyColName {
 .cellVacation { background: #dcfce7; }
 .cellSick { background: #fee2e2; }
 .cellTrip { background: #dbeafe; }
+.cellUnpaid  { background: #fef3c7; }
 
 /* Поповер быстрого выбора */
 .popover {

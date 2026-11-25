@@ -18,9 +18,10 @@ import styles from "./styles/TimesheetPage.module.css";
 
 const SHIFT_CODES: { code: ShiftCode; label: string }[] = [
   { code: "В", label: "Выходной" },
-  { code: "О", label: "Отпуск" },
+  { code: "О", label: "Отпуск без сохранения з/п" },
   { code: "Б", label: "Больничный" },
   { code: "К", label: "Командировка" },
+  { code: "От", label: "Отпуск очередной" },
 ];
 
 // Автоперевод латинских клавиш в русские коды смен для быстрого набора
@@ -29,6 +30,8 @@ const EN_TO_RU_CODE: Record<string, ShiftCode> = {
   J: "О",
   ",": "Б",
   R: "К",
+  C: "От",
+  CC: "От",
 };
 
 const handleItiliumInputChange = (
@@ -86,7 +89,7 @@ export const TimesheetPage: FC = observer(() => {
 
     // Проверка на ввод кода смены (в т.ч. в английской раскладке)
     const mappedCode = EN_TO_RU_CODE[trimmed] ?? trimmed;
-    if (["В", "О", "Б", "К"].includes(mappedCode)) {
+    if (["В", "О", "Б", "К", "От"].includes(mappedCode)) {
       timesheetStore.updateCell(
         empId,
         day,
@@ -124,6 +127,7 @@ export const TimesheetPage: FC = observer(() => {
     if (val === "О") return styles.cellVacation;
     if (val === "Б") return styles.cellSick;
     if (val === "К") return styles.cellTrip;
+    if (val === "От") return styles.cellUnpaid;
     if (isWeekend) return styles.cellWeekendBg;
     return "";
   };
@@ -330,6 +334,10 @@ export const TimesheetPage: FC = observer(() => {
         <span>
           <b className={styles.badgeTrip}>К</b> —
           командировка
+        </span>
+        <span>
+          <b className={styles.badgeUnpaid}>От</b> — за свой
+          счёт
         </span>
       </div>
 

@@ -1,4 +1,4 @@
-export type ShiftCode = "В" | "О" | "Б" | "К";
+export type ShiftCode = "В" | "О" | "Б" | "К" | "От";
 export type CellValue = number | ShiftCode | "";
 
 export type ScheduleType = "5/2" | "2/2" | "1/3" | "manual";

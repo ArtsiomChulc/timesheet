@@ -521,6 +521,7 @@ export class TimesheetStore {
     let totalHours = 0;
     let workDays = 0;
     let sickDays = 0;
+    let unpaidDays = 0;
     let vacationDays = 0;
     let itiliumHours = 0;
 
@@ -532,6 +533,8 @@ export class TimesheetStore {
         sickDays += 1;
       } else if (val === "О") {
         vacationDays += 1;
+      } else if (val === "От") {
+        unpaidDays += 1;
       }
     }
 
@@ -550,6 +553,7 @@ export class TimesheetStore {
       sickDays,
       vacationDays,
       itiliumHours,
+      unpaidDays,
     };
   }
 
